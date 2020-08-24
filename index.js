@@ -1,8 +1,13 @@
 const express = require('express');
 const app = express();
+const bodyParser = require('body-parser');
 
 const greeting = require("./greetingMid");
 
+app.use(bodyParser.text());
+app.use(bodyParser.json());
+//Forms
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(greeting('Bruno'));
 
 //middleware function
@@ -12,14 +17,18 @@ app.use('/', (req, res, next) => {
 });
 //reading data
 app.post('/shape', (req, res) => {
-    let shape = '';
-    req.on('data', function(part) {
-        shape += part;
-    });
+    // let shape = '';
+    // req.on('data', function(part) {
+    //     shape += part;
+    // });
 
-    res.on('end', function() {
-        res.send(shape);
-    });
+    // res.on('end', function() {
+    //     res.send(shape);
+    // });
+    
+    //Now using body-parser:
+    res.send(req.body);
+    console.log(JSON.stringify(req.body));
 });
 
 app.get('/client/report', (req, res) => {
