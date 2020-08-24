@@ -2,7 +2,13 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 
-const greeting = require("./greetingMid");
+const greeting = require('./greetingMid');
+const userApi = require('./api/user');
+const productApi = require('./api/product');
+productApi(app, 'params');
+
+app.post('/user', userApi.save);
+app.get('/user', userApi.obtain);
 
 app.use(bodyParser.text());
 app.use(bodyParser.json());
